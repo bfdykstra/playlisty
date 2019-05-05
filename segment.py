@@ -20,9 +20,10 @@ def segment_onset(signal, sr=22050, hop_length=512, backtrack=True):
     # return np array of audio segments, within each segment is the actual audio data
     prev_ndx = 0
     segmented = []
-    for frame in onset_samples:
-        segmented.append(np.array(signal[prev_ndx:frame]))
-        prev_ndx = frame
+    for sample_ndx in onset_samples:
+        segmented.append(np.array(signal[prev_ndx:sample_ndx]))
+        prev_ndx = sample_ndx
+    segmented.append(np.array(signal[onset_samples[-1]:]))
     return {'segmented': np.array(segmented), 'shape': np.array(segmented).shape}
     
 # return a np array of shape (num_segments, # of hops that fit in entire signal)
